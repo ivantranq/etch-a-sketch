@@ -16,7 +16,7 @@ body {
 .container {
   border: 1px solid black;
   min-height: 480px;
-  max-width: 490px;
+  max-width: 482px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -29,6 +29,6 @@ body {
   border: 1px solid gray;
 }
 
-.square:hover {
+.hover {
   background-color: black;
 }
