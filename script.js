@@ -63,6 +63,10 @@ function updateSquares (inputSize) {
 sizeBtn.addEventListener('click', () => {
   console.log('size button click.')
   let newInputSize = prompt("Enter new nxn size (Max n=100)", "n");
+  if (newInputSize > 100) {
+    alert('Uh Oh! Max n is 100, you entered something bigger :(')
+    return;
+  }
   if (newInputSize !== null) {
     updateSquares(newInputSize);
   }
