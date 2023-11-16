@@ -1,27 +1,71 @@
 const container = document.querySelector('.container');
-const btn = document.querySelector('.reset');
+const style = getComputedStyle(container);
+
+// Find the maximum width and height of the container
+let containerMaxWidth = style.maxWidth; //returns 'XYZpx'
+containerMaxWidth = containerMaxWidth.slice(0,-2); //last two chars of string is always 'px'
+containerMaxWidth = parseInt(containerMaxWidth); 
+
+let containerMaxHeight = style.maxHeight;
+containerMaxHeight = containerMaxHeight.slice(0,-2);
+containerMaxHeight = parseInt(containerMaxHeight);
+
+console.log(containerMaxWidth);
+console.log(containerMaxHeight);
+
+const resetBtn = document.querySelector('.reset');
+const sizeBtn = document.querySelector('.change-size');
 
 
+let inputSize = 16; // by Default
 
-for (let i = 0; i < 16; i++){
-  for (let j = 0; j < 16; j++) {
-    const square = document.createElement('div');
-    square.classList.add('square');
-    container.appendChild(square);
-  }
-};
+console.log(document.styleSheets[0]['cssRules'][4].style['width']);
 
-const allSquares = document.querySelectorAll('.square');
+function changeSquareDimensions(newSize) {
+  document.styleSheets[0]['cssRules'][4].style['width'] = `${newSize}px`;
+  document.styleSheets[0]['cssRules'][4].style['height'] = `${newSize}px`;
 
-allSquares.forEach(square => {
+}
+
+function updateSquares (inputSize) {
+  container.innerHTML='';
+  for (let i = 0; i < inputSize; i++){
+    for (let j = 0; j < inputSize; j++) {
+      const square = document.createElement('div');
+      square.classList.add('square');
+      // console.log(square.style);
+      if (inputSize !== 16) {
+        let newSize = Math.floor(containerMaxWidth/inputSize);
+        changeSquareDimensions(newSize);
+      }
+      container.appendChild(square);
+    }
+  };
+  const allSquares = document.querySelectorAll('.square');
+
+  allSquares.forEach(square => {
   square.addEventListener('mouseover', () => {
-    console.log('Square being hovered over.')
+    // console.log('Square being hovered over.')
     square.classList.add('hover');
+    // console.log(square.style);
   })
-});
-
-btn.addEventListener('click', () => {
+  });
+  resetBtn.addEventListener('click', () => {
   allSquares.forEach(square => {
     square.classList.remove('hover');
   })
+  })
+}
+
+
+
+
+sizeBtn.addEventListener('click', () => {
+  console.log('size button click.')
+  let newInputSize = prompt("Enter new nxn size (Max n=100)", "n");
+  if (newInputSize !== null) {
+    updateSquares(newInputSize);
+  }
 })
+
+updateSquares(inputSize);
